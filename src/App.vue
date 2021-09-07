@@ -1,18 +1,45 @@
 <template>
-  <div>hello world</div>
-  <h1>{{ number }}</h1>
+  <h2>setup和ref的基本使用</h2>
+  <h3>{{ count }}</h3>
+  <button @click="updateCount">更新数据</button>
 </template>
 
 <script lang="ts">
-// defineComponent 函数，目的是定义一个组件，内部可以传入一个配置对象
-import { defineComponent } from 'vue';
-// 暴露出去一个定义好的组件
+import { defineComponent, ref } from 'vue';
+
 export default defineComponent({
   name: 'App',
+  // 需求：页面打开后看到一个数据，点击按钮，数据发生变化
+
+  // vue2实现方式
+  // data() {
+  //   return {
+  //     count: 0,
+  //   }
+  // },
+  // methods: {
+  //   updateCount() {
+  //     this.count ++
+  //   }
+  // }
+
+  // vue3实现方式
+  // setup是组合API的入口函数
   setup() {
-    const number = 10
+    // let count = 0 // 此时的数据并不是响应式的
+    // ref作用：定义一个响应式数据，返回一个reference（Ref）对象，其中有一个value属性，如果需要对数据进行操作，需要通过该Ref对象调用value的方式进行操作
+    // html模板中不需要.value写法
+    // ref一般用来定义一个基本数据类型的响应式数据
+    const count = ref(0)
+    console.log(count)
+
+    function updateCount() {
+      count.value ++
+    }
+
     return {
-      number
+      count,
+      updateCount
     }
   }
 });
