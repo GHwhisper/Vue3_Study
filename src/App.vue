@@ -39,10 +39,10 @@ export default defineComponent({
     console.log(user)
 
     const updateUser = () => {
-      user.name += '=='
-      user.age += 2
-      user.wife.name += '=='
-      user.wife.cars[0] = '玛莎拉蒂'
+      // user.name += '=='
+      // user.age += 2
+      // user.wife.name += '=='
+      // user.wife.cars[0] = '玛莎拉蒂'
 
       // user-->代理对象，obj-->目标对象
       // user对象或者obj对象添加一个新属性，哪种方式会影响界面更新
@@ -52,6 +52,11 @@ export default defineComponent({
       // user对象或者obj对象中移除一个已经存在的属性，哪种方式会影响界面更新
       // delete obj.age
       // delete user.age
+
+      // 通过当前的代理对象找到该对象中的某个属性，更改该属性中的某个数组的数据
+      user.wife.cars[1] = '玛莎拉蒂'
+      // 通过当前的代理对象把目标对象中的某个数组属性，添加一个新的属性
+      user.wife.cars[3] = '奥拓'
     }
 
     return {
