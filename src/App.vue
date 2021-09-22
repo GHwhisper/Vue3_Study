@@ -3,7 +3,7 @@
   <h3>msg: {{ msg }}</h3>
   <button @click="msg += '==='">更新数据</button>
   <hr>
-  <child :msg="msg"></child>
+  <child :msg="msg" msg2="你好" @func1="func1"></child>
 </template>
 
 <script lang="ts">
@@ -17,8 +17,14 @@ export default defineComponent({
   },
   setup() {
     const msg = ref('what are you doing')
+
+    function func1(txt: string) {
+      msg.value += txt
+    }
+
     return {
-      msg
+      msg,
+      func1,
     }
   }
 })
