@@ -1,58 +1,26 @@
 <template>
-  <h2>toRefs的使用</h2>
-<!--  <h3>name: {{ state.name }}</h3>-->
-<!--  <h3>age: {{ state.age }}</h3>-->
-  <h3>name: {{ name }}</h3>
-  <h3>age: {{ age }}</h3>
-  <hr>
-  <h3>name2: {{ name2 }}</h3>
-  <h3>age2: {{ age2 }}</h3>
+  <h2>ref的另一个作用：可以获取页面中的元素</h2>
+  <input type="text" ref="inputRef">
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRefs } from 'vue'
-
-function useFeatureX() {
-  const state = reactive({
-    name2: '小明',
-    age2: 18
-  })
-
-  return {
-    ...toRefs(state)
-  }
-}
+import { defineComponent, onMounted, ref } from 'vue'
 
 export default defineComponent({
   name: 'App',
+
+  // 需求：页面加载完毕后，文本框自动获取焦点
+
   setup() {
-    const state = reactive({
-      name: '张三',
-      age: 47
+    // 默认是空的，页面加载完毕，说明组件已经存在，获取文本框元素
+    const inputRef = ref<HTMLElement | null>(null)
+
+    onMounted(() => {
+      inputRef.value && inputRef.value.focus() // 自动获取焦点
     })
 
-    // toRefs 可以把一个响应式对象转换成普通对象，该普通对象的每个 property 都是一个 ref
-    // const state2 = toRefs(state)
-    // console.log(state2)
-    const { name, age } = toRefs(state)
-
-    // 定时器，更新数据（数据变化，界面随之变化）
-    setInterval(() => {
-      // state.name += '=='
-      // state2.name.value += '=='
-      name.value += '=='
-    }, 1000)
-
-    const { name2, age2 } = useFeatureX()
-
     return {
-      // state,
-      // ...state, // 不是响应式数据
-      // ...state2, // toRefs 返回来的对象
-      name,
-      age,
-      name2,
-      age2,
+      inputRef,
     }
   }
 })
