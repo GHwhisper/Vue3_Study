@@ -1,24 +1,21 @@
 <template>
-  <h2>App父级组件</h2>
-  <button @click="isShow = !isShow">切换显示</button>
-  <hr>
-  <child v-if="isShow"></child>
+  <h2>自定义hook函数操作</h2>
+  <h2>x: {{ x }}, y: {{ y }}</h2>
 </template>
 
 <script lang="ts">
-import Child from '@/components/Child.vue'
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
+import useMousePosition from '@/hook/useMousePosition'
 
 export default defineComponent({
   name: 'App',
-  components: {
-    Child,
-  },
+
   setup() {
-    const isShow = ref(true)
+    const { x, y } = useMousePosition()
 
     return {
-      isShow,
+      x,
+      y,
     }
   }
 })
