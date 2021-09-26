@@ -1,82 +1,41 @@
 <template>
-  <h2>shallowReactive和shallowRef</h2>
-  <h3>m1: {{ m1 }}</h3>
-  <h3>m2: {{ m2 }}</h3>
-  <h3>m3: {{ m3 }}</h3>
-  <h3>m4: {{ m4 }}</h3>
+  <h2>readonly和shallowReadonly</h2>
+  <h3>state: {{ state2 }}</h3>
   <hr>
   <button @click="update">更新数据</button>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, shallowReactive, ref, shallowRef } from 'vue'
+import { defineComponent, reactive, readonly, shallowReadonly } from 'vue'
 
 export default defineComponent({
   name: 'App',
+
   setup() {
-    // 深度劫持（深监视）---深度响应式
-    const m1 = reactive({
-      name: '鸣人',
+    const state = reactive({
+      name: '佐助',
       age: 20,
       car: {
         name: '奔驰',
-        color: 'red'
+        color: 'yellow'
       }
     })
-    // 浅劫持（浅监视）---浅响应式
-    const m2 = shallowReactive({
-      name: '鸣人',
-      age: 20,
-      car: {
-        name: '奔驰',
-        color: 'red'
-      }
-    })
-    // 深度劫持（深监视）---深度响应式---做了reactive处理
-    const m3 = ref({
-      name: '鸣人',
-      age: 20,
-      car: {
-        name: '奔驰',
-        color: 'red'
-      }
-    })
-    // 浅劫持（浅监视）---浅响应式
-    const m4 = shallowRef({
-      name: '鸣人',
-      age: 20,
-      car: {
-        name: '奔驰',
-        color: 'red'
-      }
-    })
+
+    // 只读数据---深度只读
+    // const state2 = readonly(state)
+
+    // 也是只读---浅只读
+    const state2 = shallowReadonly(state)
 
     const update = () => {
-      // 更改m1的数据---reactive方式
-      // m1.name += '=='
-      // m1.car.name += '=='
-
-      // 更改m2的数据---shallowReactive方式
-      // m2.name += '=='
-      // m2.car.name += '=='
-
-      // 更改m3的数据---ref方式
-      // m3.value.name += '=='
-      // m3.value.car.name += '=='
-
-      // 更改m4的数据---shallowRef方式
-      // m4.value.name += '=='
-      // m4.value.name += '=='
-
-      console.log(m3, m4)
+      console.log('测试')
+      // state2.name += '=='
+      state2.car.name += '=='
     }
 
     return {
-      m1,
-      m2,
-      m3,
-      m4,
-      update
+      state2,
+      update,
     }
   }
 })
