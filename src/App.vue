@@ -1,41 +1,56 @@
 <template>
-  <h2>readonly和shallowReadonly</h2>
-  <h3>state: {{ state2 }}</h3>
+  <h2>toRaw和markRaw</h2>
+  <h3>state: {{ state }}</h3>
   <hr>
-  <button @click="update">更新数据</button>
+  <button @click="textToRaw">测试toRaw</button>
+  <button @click="textMarkRaw">测试markRaw</button>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, readonly, shallowReadonly } from 'vue'
+import { defineComponent, reactive, toRaw, markRaw } from 'vue'
+
+interface IUserInfo {
+  name: string
+  age: number
+  likes?: string[]
+}
 
 export default defineComponent({
   name: 'App',
 
   setup() {
-    const state = reactive({
-      name: '佐助',
-      age: 20,
-      car: {
-        name: '奔驰',
-        color: 'yellow'
-      }
+    const state = reactive<IUserInfo>({
+      name: '小明',
+      age: 20
     })
 
-    // 只读数据---深度只读
-    // const state2 = readonly(state)
+    const textToRaw = () => {
+      // 把代理对象变成了普通对象，数据变化，界面不变化
+      const user = toRaw(state)
+      user.name += '=='
+      console.log(state)
+    }
+    const textMarkRaw = () => {
+      // state.likes = ['吃', '喝']
+      // state.likes[0] += '=='
+      // console.log(state)
 
-    // 也是只读---浅只读
-    const state2 = shallowReadonly(state)
-
-    const update = () => {
-      console.log('测试')
-      // state2.name += '=='
-      state2.car.name += '=='
+      const likes = ['吃', '喝']
+      // markRaw 标记的对象数据，从此以后都不能再成为代理对象了
+      state.likes = markRaw(likes)
+      setInterval(() => {
+        if (state.likes) {
+          console.log('定时器执行')
+          state.likes[0] += '== '
+          console.log(state)
+        }
+      }, 1000)
     }
 
     return {
-      state2,
-      update,
+      state,
+      textToRaw,
+      textMarkRaw,
     }
   }
 })
