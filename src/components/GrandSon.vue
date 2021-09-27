@@ -1,6 +1,6 @@
 <template>
   <h3 :style="{ color }">GrandSon孙子组件</h3>
-
+  <button @click="color = 'blue'">蓝色</button>
 </template>
 
 <script lang="ts">
