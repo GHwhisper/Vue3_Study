@@ -1,28 +1,27 @@
 <template>
-  <h2>provide与inject</h2>
-  <p>当前颜色：{{ color }}</p>
-  <button @click="color = 'red'">红色</button>
-  <button @click="color = 'yellow'">黄色</button>
-  <button @click="color = 'green'">绿色</button>
-  <hr>
-  <son></son>
+  <h2>响应式数据的判断</h2>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, provide } from 'vue'
-import Son from '@/components/Son.vue'
+import { defineComponent, isRef, ref, isReactive, reactive, isReadonly, readonly, isProxy } from 'vue'
 
 export default defineComponent({
   name: 'App',
-  components: {
-    Son,
-  },
+  /**
+   * isRef: 检查一个值是否为一个 ref 对象
+   * isReactive: 检查一个对象是否是由 reactive 创建的响应式代理
+   * isReadonly: 检查一个对象是否是由 readonly 创建的只读代理
+   * isProxy: 检查一个对象是否是由 reactive 或者 readonly 方法创建的代理
+   */
   setup() {
-    const color = ref('red')
-    provide('color', color)
+    console.log(1, isRef(ref({})))
+    console.log(2, isReactive(reactive({})))
+    console.log(3, isReadonly(readonly({})))
+    console.log(4, isProxy(readonly({})))
+    console.log(5, isProxy(reactive({})))
 
     return {
-      color,
+
     }
   }
 })
