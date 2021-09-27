@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+<script src="./index.js"></script>
+<script>
+  const proxyUser1 = shallowReactive({
+    name: '小明',
+    car: {
+      color: 'red'
+    }
+  })
+  // 拦截到了读和写的操作
+  // proxyUser1.name += '=='
+  // 拦截到了读取，但是拦截不到写
+  // proxyUser1.car.color += '=='
+  // 拦截到了删除
+  // delete proxyUser1.name
+  // 只拦截到了读，但是拦截不到删除
+  // delete proxyUser1.car.color
+
+  const proxyUser2 = reactive({
+    name: '小明',
+    car: {
+      color: 'red'
+    }
+  })
+  // 拦截到了读和写的操作
+  // proxyUser2.name += '=='
+  // 拦截到了读和修改
+  // proxyUser2.car.color = '=='
+  // 拦截到了删除
+  // delete proxyUser2.name
+  // 拦截到了读和删除
+  // delete proxyUser2.car.color
+</script>
+</body>
+</html>
