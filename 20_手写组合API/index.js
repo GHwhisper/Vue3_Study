@@ -111,3 +111,43 @@ function readonly(target) {
   // 如果不是对象或者数组，那么直接返回
   return target
 }
+
+// ===============================================
+
+/**
+ * shallowRef（浅劫持，浅监视）与 ref（深的）
+ * 注意：访问或操作数据时需要以 .value 的方式
+ */
+
+// 定义一个 shallowRef 函数
+function shallowRef(target) {
+  return {
+    // 保存 target 数据
+    _value: target,
+    get value() {
+      console.log('劫持到了读取数据')
+      return this._value
+    },
+    set value(val) {
+      console.log('劫持到了修改数据，等待更新界面', val)
+      this._value = val
+    }
+  }
+}
+
+// 定义一个 ref 函数
+function ref(target) {
+  target = reactive(target)
+  return {
+    // 保存 target 数据
+    _value: target,
+    get value() {
+      console.log('劫持到了读取数据')
+      return this._value
+    },
+    set value(val) {
+      console.log('劫持到了修改数据，等待更新界面', val)
+      this._value = val
+    }
+  }
+}
