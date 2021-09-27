@@ -1,49 +1,48 @@
 <template>
-  <h2>toRef的特点及使用</h2>
-  <h3>state: {{ state }}</h3>
-  <h3>age: {{ age }}</h3>
-  <h3>money: {{ money }}</h3>
-  <hr>
-  <button @click="update">更新数据</button>
-  <hr>
-  <!-- 这里接收的只是数据，不是Ref对象，因为html中省略了 .value（age.value） -->
-  <child :age="age"></child>
+  <h2>customRef的使用</h2>
+  <input type="text" v-model="keyword">
+  <p>{{ keyword }}</p>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRef, ref } from 'vue'
-import Child from '@/components/Child.vue'
+import { defineComponent, ref, customRef } from 'vue'
+
+// 自定义 hook 防抖的函数
+// value传入的数据，数据类型不确定，故使用泛型；delay 时间间隔，默认200ms
+function useDebounceRef<T>(value: T, delay = 200) {
+  let timeOutId: number
+
+  return customRef((track, trigger) => {
+    return {
+      // 返回数据
+      get() {
+        // 告诉 Vue 追踪数据
+        track()
+        return value
+      },
+      // 设置数据
+      set(newValue: T) {
+        // 清理定时器
+        clearTimeout(timeOutId)
+        // 开启定时器
+        timeOutId = setTimeout(() => {
+          value = newValue
+          // 告诉 Vue 更新界面
+          trigger()
+        }, delay)
+      }
+    }
+  })
+}
 
 export default defineComponent({
   name: 'App',
-  components: {
-    Child,
-  },
-
   setup() {
-    const state = reactive({
-      age: 5,
-      money: 100,
-    })
-    // 把响应式数据state对象中的某个属性age变成了ref对象
-    const age = toRef(state, 'age')
-    // 把响应式对象中的某个属性使用ref进行包装，变成了一个ref对象
-    const money = ref(state.money)
-    console.log(age)
-    console.log(money)
-    const update = () => {
-      console.log('测试')
-      state.age += 2
-      // age.value += 3
-
-      money.value += 10
-    }
+    // const keyword = ref('abc')
+    const keyword = useDebounceRef('abc', 500)
 
     return {
-      state,
-      age,
-      money,
-      update,
+      keyword
     }
   }
 })
