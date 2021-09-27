@@ -1,56 +1,49 @@
 <template>
-  <h2>toRaw和markRaw</h2>
+  <h2>toRef的特点及使用</h2>
   <h3>state: {{ state }}</h3>
+  <h3>age: {{ age }}</h3>
+  <h3>money: {{ money }}</h3>
   <hr>
-  <button @click="textToRaw">测试toRaw</button>
-  <button @click="textMarkRaw">测试markRaw</button>
+  <button @click="update">更新数据</button>
+  <hr>
+  <!-- 这里接收的只是数据，不是Ref对象，因为html中省略了 .value（age.value） -->
+  <child :age="age"></child>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, toRaw, markRaw } from 'vue'
-
-interface IUserInfo {
-  name: string
-  age: number
-  likes?: string[]
-}
+import { defineComponent, reactive, toRef, ref } from 'vue'
+import Child from '@/components/Child.vue'
 
 export default defineComponent({
   name: 'App',
+  components: {
+    Child,
+  },
 
   setup() {
-    const state = reactive<IUserInfo>({
-      name: '小明',
-      age: 20
+    const state = reactive({
+      age: 5,
+      money: 100,
     })
+    // 把响应式数据state对象中的某个属性age变成了ref对象
+    const age = toRef(state, 'age')
+    // 把响应式对象中的某个属性使用ref进行包装，变成了一个ref对象
+    const money = ref(state.money)
+    console.log(age)
+    console.log(money)
+    const update = () => {
+      console.log('测试')
+      state.age += 2
+      // age.value += 3
 
-    const textToRaw = () => {
-      // 把代理对象变成了普通对象，数据变化，界面不变化
-      const user = toRaw(state)
-      user.name += '=='
-      console.log(state)
-    }
-    const textMarkRaw = () => {
-      // state.likes = ['吃', '喝']
-      // state.likes[0] += '=='
-      // console.log(state)
-
-      const likes = ['吃', '喝']
-      // markRaw 标记的对象数据，从此以后都不能再成为代理对象了
-      state.likes = markRaw(likes)
-      setInterval(() => {
-        if (state.likes) {
-          console.log('定时器执行')
-          state.likes[0] += '== '
-          console.log(state)
-        }
-      }, 1000)
+      money.value += 10
     }
 
     return {
       state,
-      textToRaw,
-      textMarkRaw,
+      age,
+      money,
+      update,
     }
   }
 })
