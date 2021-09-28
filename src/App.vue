@@ -1,7 +1,7 @@
 <template>
   <div class="todo-container">
     <div class="todo-wrap">
-      <Header></Header>
+      <Header :addTodo="addTodo"></Header>
       <List :todos="todos"></List>
       <Footer></Footer>
     </div>
@@ -24,6 +24,7 @@ export default defineComponent({
     Footer,
   },
   setup() {
+    // 定义一个数组数据
     const state = reactive<{ todos: Todo[] }>({
       todos: [
         {id: 1, title: '奔驰', isCompleted: false},
@@ -32,8 +33,14 @@ export default defineComponent({
       ]
     })
 
+    // 添加数据的方法
+    const addTodo = (todo: Todo) => {
+      state.todos.unshift(todo)
+    }
+
     return {
-      ...toRefs(state)
+      ...toRefs(state),
+      addTodo,
     }
   }
 })
