@@ -1,29 +1,21 @@
 <template>
-  <h2>响应式数据的判断</h2>
+  <!-- vue2需要根标签 -->
+  <!--  <div>-->
+  <!--    <h2>1111</h2>-->
+  <!--    <h2>2222</h2>-->
+  <!--  </div>-->
+
+  <!-- 在Vue3中: 组件可以没有根标签, 内部会将多个标签包含在一个Fragment虚拟元素中 -->
+  <!-- 好处: 减少标签层级, 减小内存占用 -->
+  <h2>1111</h2>
+  <h2>2222</h2>
 </template>
 
 <script lang="ts">
-import { defineComponent, isRef, ref, isReactive, reactive, isReadonly, readonly, isProxy } from 'vue'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   name: 'App',
-  /**
-   * isRef: 检查一个值是否为一个 ref 对象
-   * isReactive: 检查一个对象是否是由 reactive 创建的响应式代理
-   * isReadonly: 检查一个对象是否是由 readonly 创建的只读代理
-   * isProxy: 检查一个对象是否是由 reactive 或者 readonly 方法创建的代理
-   */
-  setup() {
-    console.log(1, isRef(ref({})))
-    console.log(2, isReactive(reactive({})))
-    console.log(3, isReadonly(readonly({})))
-    console.log(4, isProxy(readonly({})))
-    console.log(5, isProxy(reactive({})))
-
-    return {
-
-    }
-  }
 })
 </script>
 
