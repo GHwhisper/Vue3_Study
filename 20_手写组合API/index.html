@@ -96,7 +96,15 @@
   // 可以劫持到修改
   // ref2.value = '=='
   // 可以劫持到修改
-  ref2.value.car = '=='
+  // ref2.value.car = '=='
+
+  // ===========================================
+
+  console.log(isRef(ref({})))
+  console.log(isReactive(reactive({})))
+  console.log(isReadonly(readonly({})))
+  console.log(isProxy(reactive({})))
+  console.log(isProxy(readonly({})))
 </script>
 </body>
 </html>
