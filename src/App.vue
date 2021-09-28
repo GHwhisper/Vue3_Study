@@ -1,41 +1,38 @@
 <template>
-  <h2>App父级组件：Suspense组件的使用</h2>
-  <suspense>
-    <template #default>
-      <!-- 异步组件 -->
-<!--      <async-component></async-component>-->
-      <async-address></async-address>
-    </template>
-    <template v-slot:fallback>
-      <!-- loading的内容 -->
-      <h2>Loading...</h2>
-    </template>
-  </suspense>
+  <div class="todo-container">
+    <div class="todo-wrap">
+      <Header></Header>
+      <List></List>
+      <Footer></Footer>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, defineAsyncComponent } from 'vue'
-// 引入组件：静态引入和动态引入
-
-// Vue2 中的动态引入组件写法：（在 Vue3 中该写法不行）
-// const AsyncComponent = () => import('@/AsyncComponent.vue')
-
-// Vue3 中动态引入组件写法：
-// const AsyncComponent = defineAsyncComponent(() => import('@/AsyncComponent.vue'))
-
-// 静态引入
-// import AsyncComponent from '@/AsyncComponent.vue'
-import AsyncAddress from '@/AsyncAddress.vue'
+import { defineComponent } from 'vue'
+import Header from '@/components/Header.vue'
+import List from '@/components/List.vue'
+import Footer from '@/components/Footer.vue'
 
 export default defineComponent({
   name: 'App',
   components: {
-    // AsyncComponent,
-    AsyncAddress,
+    Header,
+    List,
+    Footer,
   }
 })
 </script>
 
 <style scoped>
+.todo-container {
+  width: 600px;
+  margin: 0 auto;
+}
 
+.todo-container .todo-wrap {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
 </style>
