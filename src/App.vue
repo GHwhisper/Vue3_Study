@@ -2,7 +2,7 @@
   <div class="todo-container">
     <div class="todo-wrap">
       <Header :addTodo="addTodo"></Header>
-      <List :todos="todos" :deleteTodo="deleteTodo"></List>
+      <List :todos="todos" :deleteTodo="deleteTodo" :updateTodo="updateTodo"></List>
       <Footer></Footer>
     </div>
   </div>
@@ -43,10 +43,17 @@ export default defineComponent({
       state.todos.splice(index, 1)
     }
 
+    // 修改 isCompleted 状态
+    const updateTodo = (todo: Todo, isCompleted: boolean) => {
+      todo.isCompleted = isCompleted
+      console.log(todo, isCompleted)
+    }
+
     return {
       ...toRefs(state),
       addTodo,
       deleteTodo,
+      updateTodo,
     }
   }
 })
