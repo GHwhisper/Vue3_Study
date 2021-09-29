@@ -4,7 +4,7 @@
       <input type="checkbox" :checked="todo.isCompleted" />
       <span>{{ todo.title }}</span>
     </label>
-    <button class="btn btn-danger" style="display: none">删除</button>
+    <button class="btn btn-danger">删除</button>
   </li>
 </template>
 
@@ -27,6 +27,14 @@ li {
   line-height: 36px;
   padding: 0 5px;
   border-bottom: 1px solid #ddd;
+}
+
+li:hover {
+  background-color: lightblue;
+}
+
+li:hover button {
+  display: inline-block;
 }
 
 li label {
