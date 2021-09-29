@@ -4,7 +4,7 @@
       <input type="checkbox" :checked="todo.isCompleted" />
       <span>{{ todo.title }}</span>
     </label>
-    <button class="btn btn-danger">删除</button>
+    <button class="btn btn-danger" @click="delTodo">删除</button>
   </li>
 </template>
 
@@ -15,7 +15,31 @@ import { Todo } from '@/types/todo'
 export default defineComponent({
   name: 'Item',
   props: {
-    todo: Object as () => Todo // 函数返回的是 Todo 类型
+    todo: {
+      type: Object as () => Todo, // 函数返回的是 T o d o 类型
+      required: true
+    },
+    deleteTodo: {
+      type: Function,
+      required: true
+    },
+    index: {
+      type: Number,
+      required: true
+    }
+  },
+  setup(props) {
+    // 删除数据
+    const delTodo = () => {
+      // 提示
+      if (window.confirm('确定删除吗？')) {
+        props.deleteTodo(props.index)
+      }
+    }
+
+    return {
+      delTodo,
+    }
   }
 })
 </script>
