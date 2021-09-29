@@ -1,7 +1,7 @@
 import { Todo } from '@/types/todo'
 
 // 保存数据到缓存
-export function saveTodos(todos: Todo[]) {
+export function saveTodos(todos: Todo[]): void {
   localStorage.setItem('todos_key', JSON.stringify(todos))
 }
 
